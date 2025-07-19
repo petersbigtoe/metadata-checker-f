@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Clock’d and Loaded Checker</title>
+  <title>Clockd & Loaded Checker</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Clock’d and Loaded</h1>
+  <h1>Clockd & Loaded</h1>
   <p>Upload your modified image to check if all timestamps are correct.</p>
 
   <form id="uploadForm" enctype="multipart/form-data">
@@ -16,6 +16,6 @@
 
   <div id="result"></div>
 
-  <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

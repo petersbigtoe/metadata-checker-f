@@ -16,8 +16,7 @@ def check_metadata(file_path):
 
 @app.route('/')
 def index():
-    with open('index.html') as f:
-        return render_template_string(f.read())
+     return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
