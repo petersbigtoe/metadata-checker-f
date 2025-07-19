@@ -2,40 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Metadata Checker</title>
+  <title>Clock’d and Loaded - Metadata Checker</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>Welcome to Metadata Checker</h1>
+  <h1>Clock’d and Loaded - Metadata Checker</h1>
 
-  <!-- Local file preview -->
-  <input type="file" id="fileInput" accept=".jpg,.jpeg" />
-  <pre id="output"></pre>
-
-  <!-- Upload form -->
-  <form id="uploadForm" enctype="multipart/form-data">
+  <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
     <input type="file" id="imageFile" name="file" accept=".jpg,.jpeg" required />
     <button type="submit">Check File</button>
   </form>
 
-  <!-- Display result messages -->
   <div id="result"></div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
-
-  <script>
-    // Preview uploaded file as text locally
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          document.getElementById('output').textContent = e.target.result;
-        };
-        reader.readAsText(file);
-      }
-    });
-  </script>
 </body>
 </html>
 
