@@ -1,36 +1,38 @@
 from flask import Flask, request, send_file, render_template
-import subprocess
-import os
 from werkzeug.utils import secure_filename
-
+import os
+from PIL import Image
+import piexif
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Use 'exiftool' from PATH; if not found, raise error on startup
-EXIFTOOL_PATH = shutil.which("exiftool")
-if EXIFTOOL_PATH is None:
-    raise RuntimeError("Exiftool not found in PATH. Please install exiftool in your environment.")
-
 def check_metadata(file_path):
     try:
-        # Run exiftool to get metadata
-        result = subprocess.run(
-            [EXIFTOOL_PATH, file_path],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=True,
-            text=True  # returns output as string, no need to decode
-        )
-    except subprocess.CalledProcessError as e:
-        # Handle exiftool failure (e.g., corrupted file)
-        print("Exiftool error:", e.stderr)
-        return False
+        img = Image.open(file_path)
+        exif_data = img.info.get("exif")
+        if not exif_data:
+            return False
 
-    target_timestamp = "2023:01:01 00:00:00"
-    count = sum(1 for line in result.stdout.splitlines() if target_timestamp in line)
-    return count == 3
+        exif_dict = piexif.load(exif_data)
+        
+        # DateTimeOriginal tag in Exif IFD is 36867
+        timestamps = []
+        for ifd in ("0th", "Exif"):
+            for tag, value in exif_dict.get(ifd, {}).items():
+                if tag == 36867:  # DateTimeOriginal
+                    # piexif values are bytes, decode to str
+                    ts = value.decode() if isinstance(value, bytes) else value
+                    timestamps.append(ts)
+
+        target_timestamp = "2023:01:01 00:00:00"
+        count = sum(1 for ts in timestamps if ts == target_timestamp)
+        return count == 3
+
+    except Exception as e:
+        print(f"Error checking metadata: {e}")
+        return False
 
 @app.route('/')
 def index():
@@ -57,3 +59,4 @@ def upload_file():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+
