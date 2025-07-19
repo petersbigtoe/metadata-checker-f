@@ -10,7 +10,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 EXIFTOOL_PATH = os.path.join(os.getcwd(), "tools", "exiftool.exe")
 
 def check_metadata(file_path):
-    result = subprocess.run(['exiftool', file_path], stdout=subprocess.PIPE)
+    result = subprocess.run([EXIFTOOL_PATH, file_path], stdout=subprocess.PIPE)
     output = result.stdout.decode()
     target_timestamp = "2023:01:01 00:00:00"
     count = sum(1 for line in output.splitlines() if target_timestamp in line)
