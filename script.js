@@ -1,30 +1,30 @@
-async function uploadFile() {
-  const input = document.getElementById("fileInput");
-  const file = input.files[0];
-  if (!file) {
-    alert("Please select a file.");
-    return;
-  }
+document.getElementById("uploadForm").addEventListener("submit", function(e) {
+  e.preventDefault();
 
   const formData = new FormData();
+  const file = document.getElementById("imageFile").files[0];
   formData.append("file", file);
 
-  document.getElementById("result").textContent = "Uploading...";
-
-  try {
-    const response = await fetch("https://your-backend-url.com/check", {
-      method: "POST",
-      body: formData,
+  fetch("/upload", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.blob();
+      } else {
+        return response.json().then(err => { throw err; });
+      }
+    })
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "flag.txt";
+      a.click();
+    })
+    .catch((err) => {
+      document.getElementById("result").textContent = err.message || "Upload failed.";
     });
+});
 
-    const data = await response.json();
-
-    if (data.success) {
-      document.getElementById("result").textContent = "Flag: " + data.flag;
-    } else {
-      document.getElementById("result").textContent = "Error: " + data.message;
-    }
-  } catch (err) {
-    document.getElementById("result").textContent = "Request failed: " + err;
-  }
-}
