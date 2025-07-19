@@ -8,20 +8,23 @@
 <body>
   <h1>Welcome to Metadata Checker</h1>
 
-  <!-- Your existing file input + output -->
-  <input type="file" id="fileInput" />
+  <!-- Local file preview -->
+  <input type="file" id="fileInput" accept=".jpg,.jpeg" />
   <pre id="output"></pre>
 
-  <!-- Upload form for backend check -->
-  <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
-    <input type="file" name="file" accept=".jpg,.jpeg" required />
+  <!-- Upload form -->
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" id="imageFile" name="file" accept=".jpg,.jpeg" required />
     <button type="submit">Check File</button>
   </form>
+
+  <!-- Display result messages -->
+  <div id="result"></div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 
   <script>
-    // Your existing JS for file input reading and display
+    // Preview uploaded file as text locally
     document.getElementById('fileInput').addEventListener('change', function(event) {
       const file = event.target.files[0];
       if (file) {
@@ -35,3 +38,4 @@
   </script>
 </body>
 </html>
+
