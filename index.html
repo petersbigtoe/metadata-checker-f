@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Metadata Checker</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Clock’d and Loaded Checker</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Metadata Checker</h1>
-    <input type="file" id="fileInput" />
-    <button onclick="uploadFile()">Check Metadata</button>
-    <pre id="result"></pre>
-  </div>
+  <h1>Clock’d and Loaded</h1>
+  <p>Upload your modified image to check if all timestamps are correct.</p>
+
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" id="imageFile" accept=".jpg,.jpeg" required />
+    <button type="submit">Check File</button>
+  </form>
+
+  <div id="result"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
-
