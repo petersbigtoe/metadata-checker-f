@@ -12,7 +12,7 @@ EXIFTOOL_PATH =  os.path.join(BASE_DIR, "tools", "exiftool.exe")
 
 def check_metadata(file_path):
     result = subprocess.run(['exiftool', file_path], capture_output=True, text=True)
-    output = result.stdout.decode()
+    output = result.stdout
     target_timestamp = "2023:01:01 00:00:00"
     count = sum(1 for line in output.splitlines() if target_timestamp in line)
     return count == 3
