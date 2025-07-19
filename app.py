@@ -38,5 +38,7 @@ def upload_file():
         return send_file("flag.txt", as_attachment=True)
     else:
         return "❌ Metadata not set correctly. Exactly 3 timestamps must be 2023:01:01 00:00:00", 400
+if __name__ == '__main__':
+   app.run(host='0.0.0.0', port=5000, debug=True)
 
 
