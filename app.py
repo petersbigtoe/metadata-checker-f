@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, render_template, render_template_string
+from flask import Flask, request, send_file, render_template
 import subprocess
 import os
 from werkzeug.utils import secure_filename
@@ -16,7 +16,7 @@ def check_metadata(file_path):
 
 @app.route('/')
 def index():
-     return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -34,7 +34,7 @@ def upload_file():
     if check_metadata(file_path):
         return send_file("flag.txt", as_attachment=True)
     else:
-        return "❌ Metadata not set correctly. Hint: 3 timestamps must be EXACTLY 2023:01:01 00:00:00", 400
+        return "❌ Metadata not set correctly. Exactly 3 timestamps must be 2023:01:01 00:00:00", 400
 
 if __name__ == '__main__':
     app.run(debug=True)
