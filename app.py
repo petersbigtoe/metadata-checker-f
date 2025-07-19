@@ -39,6 +39,4 @@ def upload_file():
     else:
         return "❌ Metadata not set correctly. Exactly 3 timestamps must be 2023:01:01 00:00:00", 400
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+
