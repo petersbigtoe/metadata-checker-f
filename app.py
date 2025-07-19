@@ -7,6 +7,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EXIFTOOL_PATH =  os.path.join(BASE_DIR, "tools", "exiftool.exe")
 
 def check_metadata(file_path):
