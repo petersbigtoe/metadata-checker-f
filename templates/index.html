@@ -1,21 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Clockd & Loaded Checker</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Metadata Checker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>Clockd & Loaded</h1>
-  <p>Upload your modified image to check if all timestamps are correct.</p>
+  <h1>Welcome to Metadata Checker</h1>
 
-  <form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" id="imageFile" accept=".jpg,.jpeg" required />
+  <!-- Your existing file input + output -->
+  <input type="file" id="fileInput" />
+  <pre id="output"></pre>
+
+  <!-- Upload form for backend check -->
+  <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".jpg,.jpeg" required />
     <button type="submit">Check File</button>
   </form>
 
-  <div id="result"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    // Your existing JS for file input reading and display
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('output').textContent = e.target.result;
+        };
+        reader.readAsText(file);
+      }
+    });
+  </script>
 </body>
 </html>
